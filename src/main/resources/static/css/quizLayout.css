@@ -33,6 +33,7 @@
     background-color: #ff838b;
   }
 
+  /*スタートページのタイトル*/
   .quizTitle {
     font-size: 100px;
     color: black;
@@ -61,3 +62,11 @@
 .quizStartButton a:before {
     font-family: "Font Awesome 5 Free";
 }
+
+.quizQuestion {
+    font-size: 20px;
+    color: black;
+    padding: 70px;
+}
+
+/*問題頁のまるばつのボタン*/
