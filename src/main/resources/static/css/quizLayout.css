@@ -4,8 +4,8 @@
 
 .layoutMain {
     display: flex;
-    max-width: 1200px;
     margin: 0 auto;
+    height: 800px;
 }
 
 .center {
@@ -14,11 +14,11 @@
     padding: 10px;
     background-color: #b3d874;
     order: 2;
-    height:400px;
+    
 }
 
 .left-side{
-  width: 22%;
+  width: 200px;
   margin: 0 auto;
   padding: 10px;
   order: 1;
@@ -26,9 +26,38 @@
 }
 
 .right-side{
-    width: 22%;
+    width: 200px;
     margin: 0 auto;
     padding: 10px;
     order: 3;
     background-color: #ff838b;
   }
+
+  .quizTitle {
+    font-size: 100px;
+    color: black;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    text-shadow: 10px 10px 20px silver;
+    padding: 70px;
+  }
+
+  .quizStartButton a {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 90px auto;
+    max-width: 240px;
+    padding: 10px 50px 10px 50px;
+    color: #313131;
+    font-weight: 600;
+    background: #eee;
+    border-radius: 50px;
+    overflow: hidden;
+    text-decoration: none;
+}
+.quizStartButton a:before {
+    font-family: "Font Awesome 5 Free";
+}

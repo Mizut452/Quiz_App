@@ -11,17 +11,19 @@
 
         </header>
 
-        <div class="left-side">
-            this is left side!
+        <div class="layoutMain">
+            <main class="center">
+                funkorogashi
+            </main>
+
+            <div class="left-side">
+                this is right side!
+            </div>
+            
+            <aside class="right-side">
+                this is right side!
+            </aside>
         </div>
-
-        <article class="center">
-            hunkorogashi
-        </article>
-
-        <aside class="right-side">
-            this is right side!
-        </aside>
     </body>
 
 </html>
