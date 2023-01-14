@@ -69,4 +69,29 @@
     padding: 70px;
 }
 
-/*問題頁のまるばつのボタン*/
+/*問題ページのまるばつのボタン*/
+.quizButton {
+  width: 250px;
+  height: 250px;
+  font-size: 100px;
+  text-decoration-line: none;
+  position: relative;
+  top: 250px;
+
+  margin-left: 350px;
+  margin-right: 150px;
+}
+
+#quizCircleButton {
+  color:red;
+  font-weight: 900;
+  background: white;
+  text-shadow: #eee;
+}
+
+#quizCrossButton {
+  color:Blue;
+  font-weight: 900;
+  background: white;
+  text-shadow: white;
+}
