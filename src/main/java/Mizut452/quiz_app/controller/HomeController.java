@@ -12,8 +12,23 @@ public class HomeController {
         return "quizStartPage";
     }
 
-    @RequestMapping("/")
-    public String quizHome2() {
+    @RequestMapping("/quiz/question")
+    public String quizQuestion() {
+        return "quizQuestionPage";
+    }
+
+    @RequestMapping("/quiz/finish")
+    public String quizResult() {
         return "quizResult";
+    }
+
+    @RequestMapping("/quiz/question/good")
+    public String quizRight() {
+        return "quizRightPage";
+    }
+
+    @RequestMapping("/quiz/question/bad")
+    public String quizBad() {
+        return "quizBadPage";
     }
 }
