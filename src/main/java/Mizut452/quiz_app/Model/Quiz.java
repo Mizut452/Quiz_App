@@ -1,4 +1,4 @@
-package Mizut452.quiz_app.model;
+package Mizut452.quiz_app.Model;
 
 import lombok.Data;
 

@@ -1,0 +1,1 @@
+INSERT INTO quiz(quizId, quizQuestionSent, quizRightOrBad, quizCommentary) VALUES (1, 'パンはパンでも食べられないパンはフライパンである。', 1, 'これは有名ななぞなぞ問題である。パンという食べられるものであっても、その前にフライという文字がくっつくと料理で使うフライパンとなり、食べられないものになる。');
