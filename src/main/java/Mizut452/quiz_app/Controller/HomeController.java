@@ -106,17 +106,17 @@ public class HomeController {
 
     @RequestMapping("/quiz/question/good")
     public String quizRight(Model model) {
-
+        quizId =listQuestionId.get(j);
         model.addAttribute("QuestionCommentary", j);
-        j++;
-        return "quizRightPage";
+
+        return "/quiz/question/" + quizId;
     }
 
     @RequestMapping("/quiz/question/bad")
     public String quizBad(Model model) {
-
+        quizId =listQuestionId.get(j);
         model.addAttribute("QuestionCommentary", j);
-        j++;
+
         return "quizBadPage";
     }
 }
