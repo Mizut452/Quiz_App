@@ -23,17 +23,19 @@ public class HomeController {
 
     @RequestMapping("/quiz/question")
     public String quizQuestion(Model model) {
+        int questionNumber = 0;
         Random random = new Random();
+        int questionLength = 10;
         int quizIdAll = quizMapper.selectQuizIdAll().size();
-        //for文によって10個の乱数を生成する。
-        for (int i = 0; i < 10; i++) {
+        //for文によってquestionLength個の乱数を生成する。
+        for (int i = 0; i < questionLength; i++) {
             //1~10が乱数
             int randomInt = random.nextInt(quizIdAll) + 1;
             if (i == 0) {
                 listQuestionId.add(randomInt);
                 i++;
             } else {
-                int count =0;
+                int count = 0;
                 for(int c : listQuestionId) {
                     if (c == randomInt) {
                         count++;
@@ -51,6 +53,8 @@ public class HomeController {
         for (int i = 0; i < listQuestionId.size(); i++) {
             randomInt = listQuestionId.get(i);
         }
+        model.addAttribute("QuestionNumber", questionNumber);
+        model.addAttribute("Question");
         model.addAttribute("Question", quizMapper.selectQuestionAll(randomInt));
         return "quizQuestionPage";
     }
