@@ -1,9 +1,11 @@
 package Mizut452.quiz_app.Controller;
 
 import Mizut452.quiz_app.Mapper.QuizMapper;
+import Mizut452.quiz_app.Model.Quiz;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import java.util.Random;
 public class HomeController {
     QuizMapper quizMapper;
     List<Integer> listQuestionId = new ArrayList<>();
+    int questionLength = 0;
+    int j = 0;
 
 
     @RequestMapping("/quiz")
@@ -22,10 +26,11 @@ public class HomeController {
     }
 
     @RequestMapping("/quiz/question")
-    public String quizQuestion(Model model) {
+    public String quizQuestionPrepare(Model model) {
+        //出題する問題を選ぶ（questionIdを生成する）
         int questionNumber = 0;
         Random random = new Random();
-        int questionLength = 10;
+        questionLength = 10;
         int quizIdAll = quizMapper.selectQuizIdAll().size();
         //for文によってquestionLength個の乱数を生成する。
         for (int i = 0; i < questionLength; i++) {
@@ -59,18 +64,42 @@ public class HomeController {
         return "quizQuestionPage";
     }
 
+    @RequestMapping("/quiz/question/{quizId}")
+    public String quizQuestion(@PathVariable int quizId,
+                               Model model) {
+            quizId = listQuestionId.get(j);
+            List<Quiz> quizAllByQuizId = quizMapper.selectQuizAll(quizId);
+
+            Quiz quizList = quizAllByQuizId.get(j);
+            String quizSentence = quizList.getQuizQuestionSent();
+            boolean quizAnswer = quizList.isQuizRightOrBad();
+
+
+            model.addAttribute("QuestionNumber", j + 1);
+            model.addAttribute("QuestionSentence", quizSentence);
+            model.addAttribute("QuizAnswer", quizAnswer);
+
+        return "quizQuestionPage";
+    }
+
     @RequestMapping("/quiz/finish")
     public String quizResult() {
         return "quizResult";
     }
 
     @RequestMapping("/quiz/question/good")
-    public String quizRight() {
+    public String quizRight(Model model) {
+
+        model.addAttribute("QuestionCommentary", j);
+        j++;
         return "quizRightPage";
     }
 
     @RequestMapping("/quiz/question/bad")
-    public String quizBad() {
+    public String quizBad(Model model) {
+
+        model.addAttribute("QuestionCommentary", j);
+        j++;
         return "quizBadPage";
     }
 }

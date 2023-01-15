@@ -10,8 +10,8 @@ import java.util.List;
 @Mapper
 public interface QuizMapper {
 
-    @Select("SELECT * FROM quiz")
-    List<Quiz> selectQuizAll();
+    @Select("SELECT * FROM quiz WHERE quizId = #{quizId}")
+    List<Quiz> selectQuizAll(int quizId);
 
     @Select("SELECT quizId FROM quiz")
     List<Quiz> selectQuizIdAll();
