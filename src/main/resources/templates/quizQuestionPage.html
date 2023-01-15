@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8">
         <title>quiz</title>
@@ -19,7 +19,7 @@
                 </div>
 
                 <form action="">
-                    <a href="" id="quizCircleButton" class="quizButton">〇</a>
+                    <a th:href="@{}" id="quizCircleButton" class="quizButton">〇</a>
                     <a href="" id="quizCrossButton" class="quizButton">×</a>
                 </form>
             </main>
