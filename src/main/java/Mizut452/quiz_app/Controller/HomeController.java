@@ -15,9 +15,11 @@ import java.util.Random;
 @Controller
 public class HomeController {
     QuizMapper quizMapper;
+    Quiz quiz;
     List<Integer> listQuestionId = new ArrayList<>();
     int questionLength = 0;
     int j = 0;
+    int quizId = 0;
 
 
     @RequestMapping("/quiz")
@@ -72,14 +74,29 @@ public class HomeController {
 
             Quiz quizList = quizAllByQuizId.get(j);
             String quizSentence = quizList.getQuizQuestionSent();
-            boolean quizAnswer = quizList.isQuizRightOrBad();
 
 
             model.addAttribute("QuestionNumber", j + 1);
             model.addAttribute("QuestionSentence", quizSentence);
-            model.addAttribute("QuizAnswer", quizAnswer);
 
         return "quizQuestionPage";
+    }
+
+    @RequestMapping("/quiz/question/{quizId}/judge")
+    public String quizJudge() {
+        quizId = listQuestionId.get(j);
+        List<Quiz> quizAllByQuizId = quizMapper.selectQuizAll(quizId);
+        Quiz quizList = quizAllByQuizId.get(quizId);
+        int rightOrBad = quizList.getQuizRightOrBad();
+        quiz.setQuizUsersAnswer(quiz.getQuizUsersAnswer());
+        if (quiz.getQuizRightOrBad() == rightOrBad) {
+            j++;
+            return "quizRightPage";
+        }
+        else {
+            j++;
+            return "quizBadPage";
+        }
     }
 
     @RequestMapping("/quiz/finish")

@@ -6,6 +6,7 @@ import lombok.Data;
 public class Quiz {
     private int quizId;
     private String quizQuestionSent;
-    private boolean quizRightOrBad;
+    private int quizRightOrBad;
     private String quizCommentary;
+    private int quizUsersAnswer;
 }
