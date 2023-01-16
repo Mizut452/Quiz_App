@@ -1,0 +1,47 @@
+#good {
+    font-size: 15px;
+    font-weight: 900;
+}
+
+#bad {
+    font-weight: 900;
+}
+
+.quizCommentaryButton {
+
+}
+
+#quizCommentaryGoNextQuiz {
+    position: relative;
+    top: 450px;
+    justify-content: center;
+    align-items: center;
+    margin: 200px auto;
+    max-width: 240px;
+    padding: 10px 50px 10px 50px;
+    color: #313131;
+    font-weight: 900;
+    background: #eee;
+    border-radius: 50px;
+    overflow: hidden;
+    margin-left: 420px;
+    margin-right: 150px;
+
+    text-decoration: none;
+}
+
+#quizCommentaryQuizFinish {
+    position: relative;
+    top: 450px;
+    justify-content: center;
+    align-items: center;
+    margin: 90px auto;
+    max-width: 240px;
+    padding: 10px 50px 10px 50px;
+    color: #313131;
+    font-weight: 900;
+    background: #eee;
+    border-radius: 50px;
+    overflow: hidden;
+    text-decoration: none;
+}
