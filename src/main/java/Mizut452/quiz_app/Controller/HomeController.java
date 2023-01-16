@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -87,7 +88,8 @@ public class HomeController {
 
     @RequestMapping("/quiz/question/{quizId}/judge/")
     public String quizJudge(Model model,
-                            @PathVariable int quizId) {
+                            @PathVariable int quizId,
+                            @ModelAttribute Quiz quiz) {
         //クイズの〇、×の確認
         //quizId = listQuestionId.get(questionNumber);
         System.out.println(quizId + "と" +questionNumber +"judge");
@@ -104,7 +106,8 @@ public class HomeController {
         model.addAttribute("QuestionCommentary", questionCommentary);
 
         //送信された〇、×の確認
-        quizList.setQuizUsersAnswer(quiz.getQuizUsersAnswer());
+        quiz.setQuizUsersAnswer(quiz.getQuizUsersAnswer());
+        quizList.setQuizUsersAnswer(quizList.getQuizUsersAnswer());
         int rightOrBad = quiz.getQuizUsersAnswer();
         System.out.println("this is rightOrBad" + rightOrBad + "と, this is getRightOrBad");
 
