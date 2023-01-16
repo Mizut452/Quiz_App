@@ -29,15 +29,15 @@ public class HomeController {
 
     @RequestMapping("/quiz")
     public String quizHome() {
-        //全て初期化。
-        listQuestionId = new ArrayList<>();
-        questionNumber = 0;
-        quizId = 0;
         return "quizStartPage";
     }
 
     @RequestMapping("/quiz/question")
     public String quizQuestionPrepare(Model model) {
+        //初期化
+        listQuestionId = new ArrayList<>();
+        questionNumber = 0;
+        quizId = 0;
         //出題する問題を選ぶ（questionIdを生成する）
         Random random = new Random();
         questionLength = 10;
@@ -82,7 +82,7 @@ public class HomeController {
 
         if (questionNumber + 1 == questionLength) {
             model.addAttribute("QuestionNumber", questionNumber + 1);
-            model.addAttribute("userPoint", userPoint);
+            model.addAttribute("userPoint", userPoint + 1);
             return "quizResult";
         }
 
