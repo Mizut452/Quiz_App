@@ -17,12 +17,12 @@
                 </div>
 
                 <div class="quizCommentary">
-                    あなたは<span>〇</span>問中<span>〇</span>問正解！
+                    あなたは<span th:text="${QuestionNumber}"></span>問中<span th:text="${userPoint}"></span>問正解！
                 </div>
 
                 <div class="quizCommentaryButton">
-                    <a href="" id="quizAgainButton">もう一度</a>
-                    <a href="" id="quizQuizFinish">おわる</a>
+                    <a th:href="@{/quiz/question}" id="quizAgainButton">もう一度</a>
+                    <a th:href="@{/quiz}" id="quizQuizFinish">おわる</a>
                 </div>
             </main>
 

@@ -24,6 +24,7 @@ public class HomeController {
     int questionLength = 0;
     int questionNumber = 0;
     int quizId = 0;
+    int userPoint = 0;
 
 
     @RequestMapping("/quiz")
@@ -79,11 +80,20 @@ public class HomeController {
             String quizSentence = quizList.getQuizQuestionSent();
             System.out.println(quizId +"= {quizId}");
 
+        if (questionNumber + 1 == questionLength) {
+            model.addAttribute("QuestionNumber", questionNumber + 1);
+            model.addAttribute("userPoint", userPoint);
+            return "quizResult";
+        }
+
+
+
             model.addAttribute("QuestionNumber", questionNumber + 1);
             model.addAttribute("QuestionSentence", quizSentence);
             model.addAttribute("quizId", quizId);
 
         return "quizQuestionPage";
+
     }
 
     @RequestMapping("/quiz/question/{quizId}/judge/")
@@ -116,6 +126,7 @@ public class HomeController {
         model.addAttribute("quizId", quizId);
         model.addAttribute("nextQuizId", nextQuizId);
         if (questionAnswer == rightOrBad) {
+            userPoint++;
             return "quizRightPage";
         }
         else {
