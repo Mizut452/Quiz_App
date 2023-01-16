@@ -97,18 +97,18 @@ public class HomeController {
         }
         Quiz quizList = quizAllByQuizId.get(0);
         int questionAnswer = quizList.getQuizRightOrBad();
+        System.out.println(questionAnswer + "questionAnswerだよ");
 
         //クイズの解説文の取り出し
         String questionCommentary = quizList.getQuizCommentary();
         model.addAttribute("QuestionCommentary", questionCommentary);
 
         //送信された〇、×の確認
-        QuizUsersAnswer quizTrueOrBad = new QuizUsersAnswer();
-        quizTrueOrBad.setRightOrBad(quizTrueOrBad.getRightOrBad());
-        int rightOrBad = quizTrueOrBad.getRightOrBad();
+        quizList.setQuizUsersAnswer(quiz.getQuizUsersAnswer());
+        int rightOrBad = quiz.getQuizUsersAnswer();
+        System.out.println("this is rightOrBad" + rightOrBad + "と, this is getRightOrBad");
 
         questionNumber++;
-        System.out.println(questionNumber);
         int nextQuizId = listQuestionId.get(questionNumber);
         model.addAttribute("quizId", quizId);
         model.addAttribute("nextQuizId", nextQuizId);
@@ -118,6 +118,12 @@ public class HomeController {
         else {
             return "quizBadPage";
         }
+    }
+
+    @RequestMapping("/quiz/question/{quizId}/{answer}")
+    public String sendQuizAnswer(@PathVariable int quizId, String answer) {
+
+        return "redirect:/quiz/question/" + quizId + "/judge/";
     }
 
     @RequestMapping("/quiz/finish")
