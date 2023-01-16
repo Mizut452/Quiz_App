@@ -2,6 +2,7 @@ package Mizut452.quiz_app.Controller;
 
 import Mizut452.quiz_app.Mapper.QuizMapper;
 import Mizut452.quiz_app.Model.Quiz;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +15,12 @@ import java.util.Random;
 
 @Controller
 public class HomeController {
+    @Autowired
     QuizMapper quizMapper;
     Quiz quiz;
     List<Integer> listQuestionId = new ArrayList<>();
     int questionLength = 0;
-    int j = 0;
+    int questionNumber = 0;
     int quizId = 0;
 
 
@@ -30,7 +32,6 @@ public class HomeController {
     @RequestMapping("/quiz/question")
     public String quizQuestionPrepare(Model model) {
         //出題する問題を選ぶ（questionIdを生成する）
-        int questionNumber = 0;
         Random random = new Random();
         questionLength = 10;
         int quizIdAll = quizMapper.selectQuizIdAll().size();
@@ -56,67 +57,71 @@ public class HomeController {
                 }
             }
         }
-        int randomInt = 0;
-        for (int i = 0; i < listQuestionId.size(); i++) {
-            randomInt = listQuestionId.get(i);
-        }
-        model.addAttribute("QuestionNumber", questionNumber);
-        model.addAttribute("Question");
-        model.addAttribute("Question", quizMapper.selectQuestionAll(randomInt));
-        return "quizQuestionPage";
+        quizId = listQuestionId.get(questionNumber);
+        return "redirect:/quiz/question/" + quizId;
     }
 
     @RequestMapping("/quiz/question/{quizId}")
     public String quizQuestion(@PathVariable int quizId,
                                Model model) {
-            quizId = listQuestionId.get(j);
+            quizId = listQuestionId.get(questionNumber);
             List<Quiz> quizAllByQuizId = quizMapper.selectQuizAll(quizId);
 
-            Quiz quizList = quizAllByQuizId.get(j);
+            Quiz quizList = quizAllByQuizId.get(questionNumber);
             String quizSentence = quizList.getQuizQuestionSent();
 
 
-            model.addAttribute("QuestionNumber", j + 1);
+            model.addAttribute("QuestionNumber", questionNumber + 1);
             model.addAttribute("QuestionSentence", quizSentence);
+            model.addAttribute("quizId", quizId);
 
         return "quizQuestionPage";
     }
 
     @RequestMapping("/quiz/question/{quizId}/judge")
     public String quizJudge() {
-        quizId = listQuestionId.get(j);
+        quizId = listQuestionId.get(questionNumber);
         List<Quiz> quizAllByQuizId = quizMapper.selectQuizAll(quizId);
         Quiz quizList = quizAllByQuizId.get(quizId);
         int rightOrBad = quizList.getQuizRightOrBad();
         quiz.setQuizUsersAnswer(quiz.getQuizUsersAnswer());
         if (quiz.getQuizRightOrBad() == rightOrBad) {
-            j++;
+            questionNumber++;
             return "quizRightPage";
         }
         else {
-            j++;
+            questionNumber++;
             return "quizBadPage";
         }
     }
 
     @RequestMapping("/quiz/finish")
     public String quizResult() {
+
         return "quizResult";
     }
 
     @RequestMapping("/quiz/question/good")
     public String quizRight(Model model) {
-        quizId =listQuestionId.get(j);
-        model.addAttribute("QuestionCommentary", j);
+        quizId = listQuestionId.get(questionNumber);
+        List<Quiz> quizAllByQuizId = quizMapper.selectQuizAll(quizId);
+        Quiz quizList = quizAllByQuizId.get(questionNumber);
+        String quizCommentary = quizList.getQuizCommentary();
 
-        return "/quiz/question/" + quizId;
+
+        model.addAttribute("QuestionCommentary", quizCommentary);
+
+        return "redirect:/quiz/question/" + quizId;
     }
 
     @RequestMapping("/quiz/question/bad")
     public String quizBad(Model model) {
-        quizId =listQuestionId.get(j);
-        model.addAttribute("QuestionCommentary", j);
+        quizId = listQuestionId.get(questionNumber);
+        List<Quiz> quizAllByQuizId = quizMapper.selectQuizAll(quizId);
+        Quiz quizList = quizAllByQuizId.get(questionNumber);
+        String quizCommentary = quizList.getQuizCommentary();
+        model.addAttribute("QuestionCommentary", quizCommentary);
 
-        return "quizBadPage";
+        return "redirect:/quiz/question/" + quizId;
     }
 }

@@ -14,13 +14,19 @@
         <div class="layoutMain">
             <main class="center">
                 <div class="quizQuestion">
-                    問題です。
-                    　とってもなごやかなのに、彼のいうことはとてもきけない。それは天神橋筋六丁目であるからである。そこから吹く風の強さは何ともいいがたい痛さのようなものがあった。彼は私に問いかけた。なぜ生きるのかと。生きなければただ幸せが待っているのに。と。私は彼の言葉を反芻した。４年間。しかし、彼の遺灰からは答えが出そうにもなかった。
+                    <h3 th:text="${QuestionSentence}"></h3>
                 </div>
 
-                <form action="">
-                    <a th:href="@{}" id="quizCircleButton" class="quizButton">〇</a>
-                    <a href="" id="quizCrossButton" class="quizButton">×</a>
+                <form action="@{/quiz/question/{quizId}/judge}/(quizId = ${quizId} )}">
+                    <!--<a th:href="@{/quiz/question/{quizId}/judge}" name="1" id="quizCircleButton" class="quizButton">〇</a>-->
+                    <input type="hidden" value="1" />
+                    <input type="submit" value="〇" />
+                </form>
+
+                <form action="@{/quiz/question/{quizId}/judge}">
+                    <!--<a href="" name="2" id="quizCrossButton" class="quizButton">×</a>-->
+                    <input type="hidden"  value="2" />
+                    <input type="submit" value="×" />
                 </form>
             </main>
 
