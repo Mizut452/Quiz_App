@@ -17,15 +17,15 @@
                     <h3 th:text="${QuestionSentence}"></h3>
                 </div>
 
-                <form action="@{/quiz/question/{quizId}/judge}/(quizId = ${quizId} )}">
+                <form th:action="@{/quiz/question/{quizId}/judge/(quizId =${quizId})}" th:method="@{post}">
                     <!--<a th:href="@{/quiz/question/{quizId}/judge}" name="1" id="quizCircleButton" class="quizButton">〇</a>-->
-                    <input type="hidden" value="1" />
+                    <input type="hidden" name="rightOrBad" value="1" />
                     <input type="submit" value="〇" />
                 </form>
 
-                <form action="@{/quiz/question/{quizId}/judge}">
+                <form th:action="@{/quiz/question/{quizId}/judge/(quizId=${quizId})}" th:method="@{post}">
                     <!--<a href="" name="2" id="quizCrossButton" class="quizButton">×</a>-->
-                    <input type="hidden"  value="2" />
+                    <input type="hidden"  name="rightOrBad" value="2" />
                     <input type="submit" value="×" />
                 </form>
             </main>

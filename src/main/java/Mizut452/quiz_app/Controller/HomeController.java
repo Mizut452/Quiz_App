@@ -2,6 +2,7 @@ package Mizut452.quiz_app.Controller;
 
 import Mizut452.quiz_app.Mapper.QuizMapper;
 import Mizut452.quiz_app.Model.Quiz;
+import Mizut452.quiz_app.Model.QuizUsersAnswer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -58,13 +59,13 @@ public class HomeController {
             }
         }
         quizId = listQuestionId.get(questionNumber);
+        System.out.println(quizId+"/quiz/question");
         return "redirect:/quiz/question/" + quizId;
     }
 
     @RequestMapping("/quiz/question/{quizId}")
     public String quizQuestion(@PathVariable int quizId,
                                Model model) {
-            quizId = listQuestionId.get(questionNumber);
             List<Quiz> quizAllByQuizId = quizMapper.selectQuizAll(quizId);
 
             Quiz quizList = quizAllByQuizId.get(questionNumber);
@@ -78,19 +79,25 @@ public class HomeController {
         return "quizQuestionPage";
     }
 
-    @RequestMapping("/quiz/question/{quizId}/judge")
-    public String quizJudge() {
-        quizId = listQuestionId.get(questionNumber);
+    @RequestMapping("/quiz/question/{quizId}/judge/")
+    public String quizJudge(Model model) {
+        //クイズの〇、×の確認
+        //quizId = listQuestionId.get(questionNumber);
+        System.out.println(quizId);
         List<Quiz> quizAllByQuizId = quizMapper.selectQuizAll(quizId);
-        Quiz quizList = quizAllByQuizId.get(quizId);
-        int rightOrBad = quizList.getQuizRightOrBad();
-        quiz.setQuizUsersAnswer(quiz.getQuizUsersAnswer());
-        if (quiz.getQuizRightOrBad() == rightOrBad) {
-            questionNumber++;
+        Quiz quizList = quizAllByQuizId.get(questionNumber);
+        int questionAnswer = quizList.getQuizRightOrBad();
+        //送信された〇、×の確認
+        QuizUsersAnswer quizTrueOrBad = new QuizUsersAnswer();
+        quizTrueOrBad.setRightOrBad(quizTrueOrBad.getRightOrBad());
+        int rightOrBad = quizTrueOrBad.getRightOrBad();
+
+        questionNumber++;
+        model.addAttribute("quizId", quizId);
+        if (questionAnswer == rightOrBad) {
             return "quizRightPage";
         }
         else {
-            questionNumber++;
             return "quizBadPage";
         }
     }
