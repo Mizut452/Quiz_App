@@ -27,6 +27,10 @@ public class HomeController {
 
     @RequestMapping("/quiz")
     public String quizHome() {
+        //全て初期化。
+        listQuestionId = new ArrayList<>();
+        questionNumber = 0;
+        quizId = 0;
         return "quizStartPage";
     }
 
@@ -37,7 +41,7 @@ public class HomeController {
         questionLength = 10;
         int quizIdAll = quizMapper.selectQuizIdAll().size();
         //for文によってquestionLength個の乱数を生成する。
-        for (int i = 0; i < questionLength; i++) {
+        for (int i = 0; i < questionLength;) {
             //1~10が乱数
             int randomInt = random.nextInt(quizIdAll) + 1;
             if (i == 0) {
@@ -58,19 +62,21 @@ public class HomeController {
                 }
             }
         }
+        for (int i = 0; i < listQuestionId.size(); i++) {
+            System.out.println(listQuestionId.get(i) + "うんち！");
+        }
         quizId = listQuestionId.get(questionNumber);
         System.out.println(quizId+"/quiz/question");
-        return "redirect:/quiz/question/" + quizId;
+        return "redirect:/quiz/question/" + quizId + "/";
     }
 
-    @RequestMapping("/quiz/question/{quizId}")
+    @RequestMapping("/quiz/question/{quizId}/")
     public String quizQuestion(@PathVariable int quizId,
                                Model model) {
             List<Quiz> quizAllByQuizId = quizMapper.selectQuizAll(quizId);
-
-            Quiz quizList = quizAllByQuizId.get(questionNumber);
+            Quiz quizList = quizAllByQuizId.get(0);
             String quizSentence = quizList.getQuizQuestionSent();
-
+            System.out.println(quizId +"= {quizId}");
 
             model.addAttribute("QuestionNumber", questionNumber + 1);
             model.addAttribute("QuestionSentence", quizSentence);
@@ -80,20 +86,32 @@ public class HomeController {
     }
 
     @RequestMapping("/quiz/question/{quizId}/judge/")
-    public String quizJudge(Model model) {
+    public String quizJudge(Model model,
+                            @PathVariable int quizId) {
         //クイズの〇、×の確認
         //quizId = listQuestionId.get(questionNumber);
-        System.out.println(quizId);
+        System.out.println(quizId + "と" +questionNumber +"judge");
         List<Quiz> quizAllByQuizId = quizMapper.selectQuizAll(quizId);
-        Quiz quizList = quizAllByQuizId.get(questionNumber);
+        for (int i = 0; i < quizAllByQuizId.size(); i++) {
+            System.out.println(quizAllByQuizId.get(i)+"this is quiz/question/quizid/judge");
+        }
+        Quiz quizList = quizAllByQuizId.get(0);
         int questionAnswer = quizList.getQuizRightOrBad();
+
+        //クイズの解説文の取り出し
+        String questionCommentary = quizList.getQuizCommentary();
+        model.addAttribute("QuestionCommentary", questionCommentary);
+
         //送信された〇、×の確認
         QuizUsersAnswer quizTrueOrBad = new QuizUsersAnswer();
         quizTrueOrBad.setRightOrBad(quizTrueOrBad.getRightOrBad());
         int rightOrBad = quizTrueOrBad.getRightOrBad();
 
         questionNumber++;
+        System.out.println(questionNumber);
+        int nextQuizId = listQuestionId.get(questionNumber);
         model.addAttribute("quizId", quizId);
+        model.addAttribute("nextQuizId", nextQuizId);
         if (questionAnswer == rightOrBad) {
             return "quizRightPage";
         }
