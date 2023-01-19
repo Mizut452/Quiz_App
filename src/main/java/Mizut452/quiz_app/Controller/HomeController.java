@@ -2,14 +2,10 @@ package Mizut452.quiz_app.Controller;
 
 import Mizut452.quiz_app.Mapper.QuizMapper;
 import Mizut452.quiz_app.Model.Quiz;
-import Mizut452.quiz_app.Model.QuizUsersAnswer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +15,12 @@ import java.util.Random;
 public class HomeController {
     @Autowired
     QuizMapper quizMapper;
-    Quiz quiz;
-    List<Integer> listQuestionId = new ArrayList<>();
-    int questionLength = 0;
-    int questionNumber = 0;
-    int quizId = 0;
-    int userPoint = 0;
+
+    private List<Integer> listQuestionId = new ArrayList<>();
+    private int questionLength = 0;
+    private int questionNumber = 0;
+    private int quizId = 0;
+    private int userPoint = 0;
 
 
     @RequestMapping("/quiz")
@@ -32,7 +28,7 @@ public class HomeController {
         return "quizStartPage";
     }
 
-    @RequestMapping("/quiz/question")
+    @GetMapping("/quiz/question")
     public String quizQuestionPrepare(Model model) {
         //初期化
         listQuestionId = new ArrayList<>();
@@ -72,7 +68,7 @@ public class HomeController {
         return "redirect:/quiz/question/" + quizId + "/";
     }
 
-    @RequestMapping("/quiz/question/{quizId}/")
+    @GetMapping("/quiz/question/{quizId}/")
     public String quizQuestion(@PathVariable int quizId,
                                Model model) {
             List<Quiz> quizAllByQuizId = quizMapper.selectQuizAll(quizId);
@@ -96,7 +92,7 @@ public class HomeController {
 
     }
 
-    @RequestMapping("/quiz/question/{quizId}/judge/")
+    @PutMapping("/quiz/question/{quizId}/judge/")
     public String quizJudge(Model model,
                             @PathVariable int quizId,
                             @ModelAttribute Quiz quiz) {
@@ -134,19 +130,13 @@ public class HomeController {
         }
     }
 
-    @RequestMapping("/quiz/question/{quizId}/{answer}")
+    @GetMapping("/quiz/question/{quizId}/{answer}")
     public String sendQuizAnswer(@PathVariable int quizId, String answer) {
 
         return "redirect:/quiz/question/" + quizId + "/judge/";
     }
 
-    @RequestMapping("/quiz/finish")
-    public String quizResult() {
-
-        return "quizResult";
-    }
-
-    @RequestMapping("/quiz/question/good")
+    @GetMapping("/quiz/question/good")
     public String quizRight(Model model) {
         quizId = listQuestionId.get(questionNumber);
         List<Quiz> quizAllByQuizId = quizMapper.selectQuizAll(quizId);
@@ -159,7 +149,7 @@ public class HomeController {
         return "redirect:/quiz/question/" + quizId;
     }
 
-    @RequestMapping("/quiz/question/bad")
+    @GetMapping("/quiz/question/bad")
     public String quizBad(Model model) {
         quizId = listQuestionId.get(questionNumber);
         List<Quiz> quizAllByQuizId = quizMapper.selectQuizAll(quizId);
