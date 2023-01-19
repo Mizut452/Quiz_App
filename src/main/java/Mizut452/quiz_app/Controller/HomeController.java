@@ -25,7 +25,7 @@ public class HomeController {
 
     @RequestMapping("/quiz")
     public String quizHome() {
-        return "quizStartPage";
+        return "quiz/quizStartPage";
     }
 
     @GetMapping("/quiz/question")
@@ -79,7 +79,7 @@ public class HomeController {
         if (questionNumber + 1 == questionLength) {
             model.addAttribute("QuestionNumber", questionNumber + 1);
             model.addAttribute("userPoint", userPoint + 1);
-            return "quizResult";
+            return "quiz/quizResult";
         }
 
 
@@ -88,7 +88,7 @@ public class HomeController {
             model.addAttribute("QuestionSentence", quizSentence);
             model.addAttribute("quizId", quizId);
 
-        return "quizQuestionPage";
+        return "quiz/quizQuestionPage";
 
     }
 
@@ -123,10 +123,10 @@ public class HomeController {
         model.addAttribute("nextQuizId", nextQuizId);
         if (questionAnswer == rightOrBad) {
             userPoint++;
-            return "quizRightPage";
+            return "quiz/quizRightPage";
         }
         else {
-            return "quizBadPage";
+            return "quiz/quizBadPage";
         }
     }
 
